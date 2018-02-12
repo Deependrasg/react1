@@ -2,40 +2,155 @@ import React,{Component} from 'react';
 // npm install react-images --save
 import ReactDOM from 'react-dom';
 import './index.css';
-import App,{First,Second} from './App';
 // import Show from './app1';
-import AppData,{Header,Content} from './app1';
-import App2 from './app2';
+
+import PropTypes from 'prop-types';
+// import App1 from './app.jsx'
+
 
 
 import registerServiceWorker from './registerServiceWorker';
-// import  from './app1';
-// import app1 from './app1';
+// import App from './app';
 
 
- 
-class MyComponent extends Component {
- 
-  render() {
-    return (
-    	<div>
-      <img src={'https://images.unsplash.com/photo-1471101173712-b9884175254e?dpr=2&auto=format&w=1024&h=1024'} alt={'Picture'}/> 
-      <img src={'https://lh3.googleusercontent.com/U6_Snity8NZP3JHEv2oQqfiu-YuZNtaeJ8Z2SE_9Y-BOwluRCIKdYaN32oTBzPhaqf1-a72URAcyJf-mbEuIUy3a10DnuK5_uWhgIbCBeYZbu-VkMHHKPPsux2V9X7flofFfROhPDcF2y3iazj9t5oRVu_BD8UrxgywPIs8Zi7OMQh3_O5h1oNG-XkBcWp9zWNPb_Aa2z-i9VD61iqlOd3C141aMuLghKVlQE-29U7OK0M3_Uznhra4XtFgR6paPVwgMKpzI2dgrv2T24tM9EbndF9hp5yuPl5perN1g6VgD_xZnS2pyJ010tVcrcHgdFHohjC5E0o_npRgVYr0-BJItU_pRTBbhR5XTkI6mDve9Jy4i8xuc6xhh1ZsDDsaRPuFHQ8fRkrm4ARTizrBZ8qcQceqwqjNGc_WaRE4vcylx9vZC6nLQqITbXIgQcjHRK_gFjb4pGXa5Y6lF4Bv94NRqqYGXDot63Sh9qGtGQMUv5o0wgDNMEUr5oJmOSbiSmS-aZTM9RSPsmeyM0D-kRTbJ7B_Y3iJEZ_vzismCoBHzSZ66jxOpjmgm8Br1FLfitnqE6h1ulOitEzeYpIGiJanuFBWJRyx7szWFxJ4=w623-h399-no'} alt={'Picture'}/> 
-    </div>
-    );
-  } 
-}//
+class MyComponent extends React.Component {
+   constructor() {
+      super();
+		
+      this.state = {
+         data: []
+      }
+	
+      this.setStateHandler = this.setStateHandler.bind(this);
+   };
+   setStateHandler() {
+      var item = "setState..."
+      var myArray = this.state.data.slice();
+	  myArray.push(item);
+      this.setState({data: myArray})
+   };
+
+   render() {
+      return (
+         <div>
+            <button onClick = {this.setStateHandler}>SET STATE</button>
+            <h4>State Array: {this.state.data}</h4>
+         </div>
+      );
+   }
+}
+
+class MyComponent2 extends React.Component {
+   constructor() {
+      super();
+      this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
+      this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+
+   };
+   findDomNodeHandler() {
+      var myDiv = document.getElementById('myDiv');
+      ReactDOM.findDOMNode(myDiv).style.color = 'blue';
+
+   }
+   forceUpdateHandler() {
+      this.forceUpdate();
+   };
+
+   render() {
+      return (
+         <div>
+         	<div>
+            <button onClick = {this.findDomNodeHandler}>FIND DOME NODE</button>
+            <div id = "myDiv">NODE</div>
+            </div>
+            <div>
+            <button onClick = {this.forceUpdateHandler}>FORCE UPDATE</button>
+            <h4>Random number: {Math.random()}</h4>
+            </div>
+         </div>
+      );
+   }
+}
 
 
+ReactDOM.render(<MyComponent />, document.getElementById('root1'));
+ReactDOM.render(<MyComponent2 />, document.getElementById('root2'));
 
-ReactDOM.render(<MyComponent />, document.getElementById('root5'));
-ReactDOM.render(<App headerProp="{hello im HeaderPros }" contentProp="{hello in contentProp}" />, document.getElementById('root'));
-registerServiceWorker();
-ReactDOM.render(<Second />, document.getElementById('root1'));
-ReactDOM.render(<First />, document.getElementById('root2'));
-ReactDOM.render(<AppData />, document.getElementById('root3'));
-ReactDOM.render(<App2 />, document.getElementById('root4'));
-// ReactDOM.render(<Content />, document.getElementById('root5'));
+class App extends React.Component {
+   constructor(props) {
+      super(props);
+      
+      this.state = {
+         data: 0
+      }
+      this.setNewNumber = this.setNewNumber.bind(this)
+   };
+   setNewNumber() {
+      this.setState({data: this.state.data + 1})
+   }
+   render() {
+      return (
+         <div>
+            <button onClick = {this.setNewNumber}>INCREMENT</button>
+            <Content myNumber = {this.state.data}></Content>
+         </div>
+      );
+   }
+}
+class Content extends React.Component {
+   componentWillMount() {
+      console.log('Component WILL MOUNT!')
+   }
+   componentDidMount() {
+      console.log('Component DID MOUNT!')
+   }
+   componentWillReceiveProps(newProps) {    
+      console.log('Component WILL RECIEVE PROPS!')
+   }
+   shouldComponentUpdate(newProps, newState) {
+      return true;
+   }
+   componentWillUpdate(nextProps, nextState) {
+      console.log('Component WILL UPDATE!');
+   }
+   componentDidUpdate(prevProps, prevState) {
+      console.log('Component DID UPDATE!')
+   }
+   componentWillUnmount() {
+      console.log('Component WILL UNMOUNT!')
+   }
+   render() {
+      return (
+         <div>
+            <h3>{this.props.myNumber}</h3>
+         </div>
+      );
+   }
+}
+ReactDOM.render(<App />, document.getElementById('root3'));
 
 
-// registerServiceWorker();
+//////Hello its for update states
+class App1 extends React.Component {
+   constructor(props) {
+      super(props);
+      
+      this.state = {
+         data: 'Initial data...'
+      }
+      this.updateState = this.updateState.bind(this);
+   };
+   updateState(e) {
+      this.setState({data: e.target.value});
+   }
+   render() {
+      return (
+         <div>
+            <input type = "text" value = {this.state.data} 
+               onChange = {this.updateState} />
+            <h4>{this.state.data}</h4>
+         </div>
+      );
+   }
+}
+ReactDOM.render(<App1 />, document.getElementById('root4'));
